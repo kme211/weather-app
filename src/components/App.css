@@ -1,0 +1,36 @@
+.App {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+  font-size: 22px;
+  font-family: Helvetica, Arial, sans-serif;
+  color: #ECF0F1;
+  background-color: #D3E0E2;
+}
+
+.App.error {
+  background-color: tomato;
+}
+.App.clear {
+  background-color: #09A8FA;
+}
+.App.thunderstorm {
+  background-color: #2C3E50;
+}
+.App.drizzle {
+  background-color: #99B0C2;
+}
+.App.rain {
+  background-color: #78BBE6;
+}
+.App.snow {
+  background-color: #539DDB;
+}
+.App.atmosphere {
+  background-color: #C6E5F3;
+}
+.App.extreme {
+  background-color: #911F27;
+}
