@@ -38,6 +38,10 @@
   background-color: #911F27;
 }
 
+.App.night {
+  background-color: #141314;
+}
+
 a {
   color: #FD6378;
 }

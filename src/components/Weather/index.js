@@ -1,20 +1,26 @@
 import React from "react";
 import "./styles.css";
+import Flipper from "../Flipper";
+import Toggle from "../Toggle";
+import Arrow from "../Arrow";
 
 const Weather = ({
-  handleClick,
+  onClick,
   temp,
   feelsLike,
   desc,
   hourlySummary,
   error,
+  flipperSideShown,
+  tempScale,
+  changeTempScale,
   style
-}) => (
-  <div className="Weather" style={style}>
-    {error
-      ? <div className="Weather__error">{error}</div>
-      : <div className="Weather__info">
-          <div className="Weather__temp" onClick={handleClick}>
+}) => {
+  const component = error
+    ? <div className="Weather__error">{error}</div>
+    : <Flipper showSide={flipperSideShown}>
+        <div className="Weather" style={style}>
+          <div className="Weather__temp">
             {temp}
             <div className="Weather__feels-like">
               (but it feels like {feelsLike})
@@ -22,9 +28,22 @@ const Weather = ({
           </div>
 
           <div className="Weather__desc">{desc} right now.</div>
+          <Toggle
+            name="scale"
+            checkedItem={tempScale}
+            onChange={changeTempScale}
+            value1="f"
+            label1="f"
+            value2="c"
+            label2="c"/>
+            <div className="flip-btn" onClick={onClick}><Arrow/></div>
+        </div>
+        <div className="Weather">
           <div className="Weather__desc">{hourlySummary}</div>
-        </div>}
-  </div>
-);
+          <div className="flip-btn reverse" onClick={onClick}><Arrow/></div>
+        </div>
+      </Flipper>;
+  return component;
+};
 
 export default Weather;

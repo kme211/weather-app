@@ -29,11 +29,13 @@ class App extends Component {
       hourlySummary: "",
       windSpeed: 0,
       height: window.innerHeight,
-      width: window.innerWidth
+      width: window.innerWidth,
+      flipperSideShown: 'front'
     };
 
-    this.handleClick = this.handleClick.bind(this);
+    this.changeTempScale = this.changeTempScale.bind(this);
     this.resizeHandler = this.resizeHandler.bind(this);
+    this.flip = this.flip.bind(this);
   }
 
   resizeHandler() {
@@ -43,13 +45,22 @@ class App extends Component {
     });
   }
 
-  handleClick() {
+  changeTempScale(e) {
+    console.log('changeTempScale')
     this.setState({
       tempScale: this.state.tempScale === "f" ? "c" : "f"
     });
   }
 
+  flip(e) {
+    console.log('flip')
+    this.setState({ flipperSideShown: this.state.flipperSideShown === 'front' ? 'back' : 'front' });
+  }
+
   async componentDidMount() {
+    window.addEventListener('click', e => {
+      console.log(e.target)
+    })
     window.addEventListener("resize", this.resizeHandler);
     const location = await getLocation();
     const weather = await getWeather(location);
@@ -69,10 +80,11 @@ class App extends Component {
       desc,
       feelsLike,
       windSpeed,
-      hourlySummary
+      hourlySummary,
+      flipperSideShown
     } = this.state;
 
-    const time = error
+    let time = error
       ? "day"
       : (dt > sunrise) & (dt < sunset) ? "day" : "night";
     let condition = error
@@ -92,7 +104,7 @@ class App extends Component {
       : 0;
 
     return (
-      <div className={`App ${condition}`}>
+      <div className={`App ${condition} ${time}`}>
         <Header />
         <Motion style={{ opacity: spring(loaded ? 0 : 1) }}>
           {({ opacity }) => <Loader style={{ opacity: `${opacity}` }} />}
@@ -112,18 +124,21 @@ class App extends Component {
         >
 
           {({ scale, rotate }) => (
-            <Weather
-              style={{
-                WebkitTransform: `scale(${scale})`,
-                transform: `scale(${scale}) rotateY(${rotate}deg)`
-              }}
-              error={error}
-              hourlySummary={hourlySummary}
-              feelsLike={formatTemp(tempScale, feelsLike)}
-              temp={formatTemp(tempScale, temp)}
-              desc={desc}
-              handleClick={this.handleClick}
-            />
+              <Weather
+                style={{
+                  WebkitTransform: `scale(${scale})`,
+                  transform: `scale(${scale}) rotateY(${rotate}deg)`
+                }}
+                error={error}
+                hourlySummary={hourlySummary}
+                feelsLike={formatTemp(tempScale, feelsLike)}
+                temp={formatTemp(tempScale, temp)}
+                tempScale={tempScale}
+                changeTempScale={this.changeTempScale}
+                desc={desc}
+                flipperSideShown={flipperSideShown}
+                onClick={this.flip}
+              />
           )}
         </Motion>
 

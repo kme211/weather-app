@@ -1,11 +1,16 @@
 .Weather {
   text-align: center;
-  max-width: 90%;
+  width: 100%;
+  height: 100%;
   margin: 0 auto;
   border-radius: 0.2rem;
   background: rgba(0,0,0,0.8);
   border: 1px solid #ECF0F1;
   z-index: 4;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
 }
 
 @media (min-width: 800px) {
@@ -19,24 +24,13 @@
   padding: 1rem;
 }
 
-.Weather__info {
-  padding: 1rem 2rem;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  flex-direction: column;
-  height: 100vh;
-  max-height: 15rem;
-}
 
 .Weather__info > * {
   height: auto;
 }
 
 .Weather__temp {
-  cursor: pointer;
   font-size: 2rem;
-  user-select: none;
 }
 
 .Weather__feels-like {

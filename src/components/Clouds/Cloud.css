@@ -1,17 +1,10 @@
 .cloud-el {
-	width: 350px; height: 120px;
-	
+	width: 350px; 
+	height: 120px;
 	background: #f2f9fe;
-	/*background: linear-gradient(top, #f2f9fe 5%, #d6f0fd 100%);
-	background: -webkit-linear-gradient(top, #f2f9fe 5%, #d6f0fd 100%);
-	background: -moz-linear-gradient(top, #f2f9fe 5%, #d6f0fd 100%);
-	background: -ms-linear-gradient(top, #f2f9fe 5%, #d6f0fd 100%);
-	background: -o-linear-gradient(top, #f2f9fe 5%, #d6f0fd 100%);*/
-	
 	border-radius: 100px;
 	-webkit-border-radius: 100px;
 	-moz-border-radius: 100px;
-	
 	position: absolute;
 	z-index: 2;
 	margin: 120px auto 20px;
@@ -20,7 +13,7 @@
 .cloud-el:after, .cloud-el:before {
 	content: '';
 	position: absolute;
-	background: #f2f9fe;
+	background: inherit;
 	z-index: -1
 }
 
@@ -42,4 +35,8 @@
   border-radius: 50%;
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
+}
+
+.night .cloud-el {
+	background: #aeb0b2;
 }

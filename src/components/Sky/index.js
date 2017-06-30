@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import "./styles.css";
 import { drawParticle, generateParticles } from "./services/particles";
 
 class Sky extends Component {
@@ -44,6 +45,7 @@ class Sky extends Component {
     const { speed, width, height, styles } = this.props;
     return (
       <canvas
+        className="sky"
         speed={speed}
         width={width}
         height={height}
