@@ -8,6 +8,9 @@
   font-family: Helvetica, Arial, sans-serif;
   color: #ECF0F1;
   background-color: #D3E0E2;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
 }
 
 .App.error {
@@ -33,4 +36,12 @@
 }
 .App.extreme {
   background-color: #911F27;
+}
+
+a {
+  color: #FD6378;
+}
+
+* {
+  box-sizing: border-box;
 }

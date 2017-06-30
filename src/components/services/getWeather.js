@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export default function getWeather(location) {
-  const baseUrl = "http://kearieggers.com/api/v1";
+  const baseUrl = "https://kearieggers.com/api/v1";
   return axios
     .get(
       `${baseUrl}/weather/${location.coords.latitude},${location.coords.longitude}`
@@ -12,9 +12,11 @@ export default function getWeather(location) {
       const dailyData = data.daily.data && res.data.daily.data.length
         ? res.data.daily.data[0]
         : null;
+      const hourlySummary = data.hourly ? data.hourly.summary : null;
       return {
         icon: data.currently.icon,
-        hourlySummary: data.hourly.summary,
+        windSpeed: data.currently.windSpeed,
+        hourlySummary,
         feelsLike: data.currently.apparentTemperature,
         temp: data.currently.temperature,
         dt: data.currently.time,
@@ -24,6 +26,7 @@ export default function getWeather(location) {
       };
     })
     .catch(err => {
+      if(process.env.NODE_ENV === 'development') console.error(err);
       return { error: "Something went wrong!" };
     });
 }

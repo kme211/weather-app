@@ -5,7 +5,7 @@
   border-radius: 0.2rem;
   background: rgba(0,0,0,0.8);
   border: 1px solid #ECF0F1;
-  z-index: 3;
+  z-index: 4;
 }
 
 @media (min-width: 800px) {

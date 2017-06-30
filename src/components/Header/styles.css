@@ -1,0 +1,10 @@
+header {
+  font-size: 14px;
+  padding: 14px;
+  position: absolute;
+  z-index: 3;
+  width: 100%;
+  left: 0;
+  top: 0;
+  background-color: #222222;
+}

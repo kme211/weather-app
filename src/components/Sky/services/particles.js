@@ -1,8 +1,5 @@
 import colors from "../../colors";
-
-function getRandomNum(min, max) {
-  return Math.random() * (max - min + 1) + min;
-}
+import getRandomNum from "../../services/getRandomNum";
 
 function getRadius({ type, width }) {
   switch (type) {

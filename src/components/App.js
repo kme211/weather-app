@@ -1,9 +1,12 @@
 import React, { Component } from "react";
 import { Motion, spring } from "react-motion";
 import "./App.css";
+import Header from "./Header";
 import Loader from "./Loader";
 import Weather from "./Weather";
 import Sky from "./Sky";
+import Clouds from "./Clouds";
+import Footer from "./Footer";
 import getLocation from "./services/getLocation";
 import getWeather from "./services/getWeather";
 import formatTemp from "./services/formatTemp";
@@ -24,6 +27,7 @@ class App extends Component {
       sunrise: 0,
       feelsLike: 0,
       hourlySummary: "",
+      windSpeed: 0,
       height: window.innerHeight,
       width: window.innerWidth
     };
@@ -64,25 +68,32 @@ class App extends Component {
       sunset,
       desc,
       feelsLike,
+      windSpeed,
       hourlySummary
     } = this.state;
 
     const time = error
       ? "day"
       : (dt > sunrise) & (dt < sunset) ? "day" : "night";
-    const condition = error
+    let condition = error
       ? "error"
       : desc.toLowerCase() === "clear"
           ? time === "day" ? "sun" : "stars"
           : desc.toLowerCase();
+
     const showSky =
       condition === "rain" ||
       condition === "snow" ||
       condition === "sun" ||
       condition === "stars";
 
+    const numClouds = /cloud/.test(condition)
+      ? /mostly/.test(condition) ? 5 : 3
+      : 0;
+
     return (
       <div className={`App ${condition}`}>
+        <Header />
         <Motion style={{ opacity: spring(loaded ? 0 : 1) }}>
           {({ opacity }) => <Loader style={{ opacity: `${opacity}` }} />}
         </Motion>
@@ -133,6 +144,8 @@ class App extends Component {
             width={window.innerWidth}
             height={window.innerHeight}
           />}
+        {numClouds && <Clouds windSpeed={windSpeed} numClouds={numClouds} />}
+        <Footer />
       </div>
     );
   }
