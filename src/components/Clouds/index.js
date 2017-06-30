@@ -58,7 +58,7 @@ class Clouds extends Component {
           const offScreen = left > deviceWidth;
           const increment = (windSpeed / 10)  + (1 - scale);
           left = offScreen ? -375 : left + increment;
-          top = offScreen ? getRandomNum(10, deviceHeight - 50) : top;
+          top = offScreen ? getRandomNum(-50, deviceHeight - 300) : top;
           scale = offScreen ? getRandomNum(0.1, 1) : scale;
           return Object.assign({}, cloud, {
             style: {
