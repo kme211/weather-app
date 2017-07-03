@@ -5,7 +5,7 @@ import Toggle from "../Toggle";
 const Header = ({ tempScale, changeTempScale }) => (
   <header>
     <h1 className="header__title">
-    Weather NOW!
+      Weather NOW!
     </h1>
     <Toggle
       name="scale"
