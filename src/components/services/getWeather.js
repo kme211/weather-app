@@ -1,10 +1,9 @@
 import axios from "axios";
 
 export default function getWeather(location) {
-  const baseUrl = "https://kearieggers.com/api/v1";
   return axios
     .get(
-      `${baseUrl}/weather/${location.coords.latitude},${location.coords.longitude}`
+      `/api/v1/weather/${location.coords.latitude},${location.coords.longitude}`
     )
     .then(res => {
       const data = res.data ? res.data : null;
@@ -26,7 +25,7 @@ export default function getWeather(location) {
       };
     })
     .catch(err => {
-      if(process.env.NODE_ENV === 'development') console.error(err);
+      if (process.env.NODE_ENV === "development") console.error(err);
       return { error: "Something went wrong!" };
     });
 }

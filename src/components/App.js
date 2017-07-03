@@ -7,9 +7,9 @@ import Weather from "./Weather";
 import Sky from "./Sky";
 import Clouds from "./Clouds";
 import Footer from "./Footer";
-import getLocation from "./services/getLocation";
 import getWeather from "./services/getWeather";
 import formatTemp from "./services/formatTemp";
+import getNormalizedCondition from "./services/getNormalizedCondition";
 import colors from "./colors";
 
 class App extends Component {
@@ -30,7 +30,7 @@ class App extends Component {
       windSpeed: 0,
       height: window.innerHeight,
       width: window.innerWidth,
-      flipperSideShown: 'front'
+      flipperSideShown: "front"
     };
 
     this.changeTempScale = this.changeTempScale.bind(this);
@@ -46,23 +46,22 @@ class App extends Component {
   }
 
   changeTempScale(e) {
-    console.log('changeTempScale')
     this.setState({
       tempScale: this.state.tempScale === "f" ? "c" : "f"
     });
   }
 
   flip(e) {
-    console.log('flip')
-    this.setState({ flipperSideShown: this.state.flipperSideShown === 'front' ? 'back' : 'front' });
+    this.setState({
+      flipperSideShown: this.state.flipperSideShown === "front"
+        ? "back"
+        : "front"
+    });
   }
 
   async componentDidMount() {
-    window.addEventListener('click', e => {
-      console.log(e.target)
-    })
     window.addEventListener("resize", this.resizeHandler);
-    const location = await getLocation();
+    const location = await this.props.getLocation();
     const weather = await getWeather(location);
     const newState = Object.assign({ loaded: true }, weather);
     this.setState(newState);
@@ -84,14 +83,8 @@ class App extends Component {
       flipperSideShown
     } = this.state;
 
-    let time = error
-      ? "day"
-      : (dt > sunrise) & (dt < sunset) ? "day" : "night";
-    let condition = error
-      ? "error"
-      : desc.toLowerCase() === "clear"
-          ? time === "day" ? "sun" : "stars"
-          : desc.toLowerCase();
+    let time = error ? "day" : (dt > sunrise) & (dt < sunset) ? "day" : "night";
+    let condition = error ? "error" : getNormalizedCondition(desc, time);
 
     const showSky =
       condition === "rain" ||
@@ -105,7 +98,7 @@ class App extends Component {
 
     return (
       <div className={`App ${condition} ${time}`}>
-        <Header />
+        <Header tempScale={tempScale} changeTempScale={this.changeTempScale} />
         <Motion style={{ opacity: spring(loaded ? 0 : 1) }}>
           {({ opacity }) => <Loader style={{ opacity: `${opacity}` }} />}
         </Motion>
@@ -124,21 +117,19 @@ class App extends Component {
         >
 
           {({ scale, rotate }) => (
-              <Weather
-                style={{
-                  WebkitTransform: `scale(${scale})`,
-                  transform: `scale(${scale}) rotateY(${rotate}deg)`
-                }}
-                error={error}
-                hourlySummary={hourlySummary}
-                feelsLike={formatTemp(tempScale, feelsLike)}
-                temp={formatTemp(tempScale, temp)}
-                tempScale={tempScale}
-                changeTempScale={this.changeTempScale}
-                desc={desc}
-                flipperSideShown={flipperSideShown}
-                onClick={this.flip}
-              />
+            <Weather
+              style={{
+                WebkitTransform: `scale(${scale})`,
+                transform: `scale(${scale}) rotateY(${rotate}deg)`
+              }}
+              error={error}
+              hourlySummary={hourlySummary}
+              feelsLike={formatTemp(tempScale, feelsLike)}
+              temp={formatTemp(tempScale, temp)}
+              desc={desc}
+              flipperSideShown={flipperSideShown}
+              onClick={this.flip}
+            />
           )}
         </Motion>
 
@@ -159,7 +150,8 @@ class App extends Component {
             width={window.innerWidth}
             height={window.innerHeight}
           />}
-        {numClouds && <Clouds windSpeed={windSpeed} numClouds={numClouds} />}
+        {numClouds > 0 &&
+          <Clouds windSpeed={windSpeed} numClouds={numClouds} />}
         <Footer />
       </div>
     );

@@ -1,7 +1,6 @@
 import React from "react";
 import "./styles.css";
 import Flipper from "../Flipper";
-import Toggle from "../Toggle";
 import Arrow from "../Arrow";
 
 const Weather = ({
@@ -28,14 +27,6 @@ const Weather = ({
           </div>
 
           <div className="Weather__desc">{desc} right now.</div>
-          <Toggle
-            name="scale"
-            checkedItem={tempScale}
-            onChange={changeTempScale}
-            value1="f"
-            label1="f"
-            value2="c"
-            label2="c"/>
             <div className="flip-btn" onClick={onClick}><Arrow/></div>
         </div>
         <div className="Weather">

@@ -31,7 +31,6 @@ const Toggle = ({
     />
     <div className="switch">
       <label
-        onClick={(e) => {console.log('clicked!')}}
         className={
           `switch__label left ${checkedItem === value1 ? "active" : ""}`
         }
@@ -47,6 +46,7 @@ const Toggle = ({
       >
         {label2}
       </label>
+      <div className={`switch__active-bg ${checkedItem === value1 ? 'left' : 'right'}`}></div>
     </div>
   </div>
 );

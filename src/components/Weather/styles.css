@@ -13,17 +13,14 @@
   align-items: center;
 }
 
-@media (min-width: 800px) {
-  .Weather {
-     max-width: 600px;
-  }
-}
-
 .Weather__error {
   color: tomato;
-  padding: 1rem;
+  margin: 1rem;
 }
 
+.Weather__desc {
+  margin: 1rem;
+}
 
 .Weather__info > * {
   height: auto;

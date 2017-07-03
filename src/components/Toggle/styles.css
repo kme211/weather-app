@@ -1,13 +1,14 @@
 .toggle {
   position: relative;
   z-index: 6;
+  font-size: 1em;
 }
 
 .switch {
   display: flex;
   align-items: center;
   width: 100px;
-  height: 50px;
+  height: 45px;
   text-align: center;
   
   transition: all 0.2s ease;
@@ -16,11 +17,11 @@
 
 .switch__label {
   cursor: pointer;
-  color: #ccc;
-  width: 60px;
-  line-height: 50px;
+  color: #8c8a8a;
+  width: 50px;
+  line-height: 45px;
   transition: all 0.2s ease;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0,0,0,0.25);
 }
 
 .switch__label.active {
@@ -29,4 +30,23 @@
 
 .toggle__input {
   display: none;
+}
+
+.switch__active-bg {
+  content: '';
+  background-color: #FD6378;
+  width: 50%;
+  height: 100%; 
+  position: absolute;
+  z-index: -1;
+  transition: all 0.2s ease;
+  top: 0;
+}
+
+.switch__active-bg.left {
+  left: 0;
+}
+
+.switch__active-bg.right {
+  left: 50%;
 }
