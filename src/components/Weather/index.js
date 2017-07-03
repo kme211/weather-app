@@ -17,8 +17,8 @@ const Weather = ({
 }) => {
   const component = error
     ? <div className="Weather__error">{error}</div>
-    : <Flipper showSide={flipperSideShown}>
-        <div className="Weather" style={style}>
+    : <Flipper showSide={flipperSideShown} style={style}>
+        <div className="Weather">
           <div className="Weather__temp">
             {temp}
             <div className="Weather__feels-like">
@@ -27,11 +27,12 @@ const Weather = ({
           </div>
 
           <div className="Weather__desc">{desc} right now.</div>
-            <div className="flip-btn" onClick={onClick}><Arrow/></div>
+          
+          <div className="flip-btn" onClick={onClick}><Arrow /></div>
         </div>
         <div className="Weather">
           <div className="Weather__desc">{hourlySummary}</div>
-          <div className="flip-btn reverse" onClick={onClick}><Arrow/></div>
+          <div className="flip-btn reverse" onClick={onClick}><Arrow /></div>
         </div>
       </Flipper>;
   return component;
