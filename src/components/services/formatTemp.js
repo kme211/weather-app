@@ -7,6 +7,8 @@ function convertTo(scale, f) {
 }
 
 export default function formatTemp(scale, f) {
+  if (arguments.length < 2)
+    throw new Error("Must supply a scale and a fahrenheight temp!");
   const temp = convertTo(scale, f);
   return `${Math.round(temp)}° ${scale.toUpperCase()}`;
 }
