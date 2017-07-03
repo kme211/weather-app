@@ -83,8 +83,8 @@ class App extends Component {
       flipperSideShown
     } = this.state;
 
-    let time = error ? "day" : (dt > sunrise) & (dt < sunset) ? "day" : "night";
-    let condition = error ? "error" : getNormalizedCondition(desc, time);
+    let time = (error || !dt) ? "day" : ((dt > sunrise) & (dt < sunset) ? "day" : "night");
+    let condition = error ? "error" : getNormalizedCondition(flipperSideShown === "front" ? desc : hourlySummary, time);
 
     const showSky =
       condition === "rain" ||
@@ -109,10 +109,7 @@ class App extends Component {
               stiffness: 60,
               damping: 5
             }),
-            rotate: spring(loaded ? 360 : 0, {
-              stiffness: 60,
-              damping: 5
-            })
+            rotate: spring(loaded ? 360 : 0)
           }}
         >
 
