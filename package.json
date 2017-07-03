@@ -17,5 +17,6 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
+  "homepage": "https://kearieggers.com/weather",
    "proxy": "https://kearieggers.com"
 }

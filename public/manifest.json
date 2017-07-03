@@ -1,15 +1,19 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
-  "icons": [
-    {
-      "src": "favicon.ico",
-      "sizes": "192x192",
-      "type": "image/png"
-    }
-  ],
-  "start_url": "./index.html",
-  "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+    "name": "Weather NOW!",
+    "icons": [
+        {
+            "src": "https://kearieggers.com/weather/android-chrome-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "https://kearieggers.com/weather/android-chrome-256x256.png",
+            "sizes": "256x256",
+            "type": "image/png"
+        }
+    ],
+    "start_url": "./index.html",
+    "theme_color": "#222222",
+    "background_color": "#3f3f3f",
+    "display": "standalone"
 }
