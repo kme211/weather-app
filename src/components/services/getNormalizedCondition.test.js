@@ -6,4 +6,5 @@ it("return the normalized condition from the description passed", () => {
   expect(getNormalizedCondition("Drizzle", "day")).toEqual("rain");
   expect(getNormalizedCondition("Rain", "day")).toEqual("rain");
   expect(getNormalizedCondition("Snow", "night")).toEqual("snow");
+  expect(getNormalizedCondition("Mostly cloudy", "day")).toEqual("clouds");
 });

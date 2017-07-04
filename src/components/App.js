@@ -84,7 +84,8 @@ class App extends Component {
     } = this.state;
 
     let time = (error || !dt) ? "day" : ((dt > sunrise) & (dt < sunset) ? "day" : "night");
-    let condition = error ? "error" : getNormalizedCondition(flipperSideShown === "front" ? desc : hourlySummary, time);
+    let summary = flipperSideShown === "front" ? desc : hourlySummary;
+    let condition = error ? "error" : getNormalizedCondition(summary, time);
 
     const showSky =
       condition === "rain" ||
@@ -92,8 +93,8 @@ class App extends Component {
       condition === "sun" ||
       condition === "stars";
 
-    const numClouds = /cloud/.test(condition)
-      ? /mostly/.test(condition) ? 5 : 3
+    const numClouds = /cloud/i.test(summary)
+      ? /mostly/i.test(summary) ? 5 : 3
       : 0;
 
     return (

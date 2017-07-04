@@ -8,6 +8,7 @@
   font-family: Helvetica, Arial, sans-serif;
   color: #ECF0F1;
   background-color: #3f3f3f;
+  transition: all 0.4s;
   width: 100%;
   overflow: hidden;
   position: relative;
@@ -18,6 +19,9 @@
 }
 .App.clear {
   background-color: #09A8FA;
+}
+.App.clouds.day {
+  background-color: #D3E0E2;
 }
 .App.thunderstorm {
   background-color: #2C3E50;

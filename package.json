@@ -18,5 +18,5 @@
     "eject": "react-scripts eject"
   },
   "homepage": "https://kearieggers.com/weather",
-   "proxy": "https://kearieggers.com"
+  "proxy": "https://kearieggers.com"
 }
