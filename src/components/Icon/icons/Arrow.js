@@ -8,7 +8,10 @@ const Arrow = () => (
     y="0px"
     viewBox="0 0 100 100"
     enableBackground="new 0 0 100 100"
+    aria-labelledby="iconArrowTitle"
+    role="img"
   >
+    <title id="iconArrowTitle">Arrow</title>
     <g>
       <g>
         <path
