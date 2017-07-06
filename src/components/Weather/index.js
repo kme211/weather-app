@@ -1,7 +1,7 @@
 import React from "react";
 import "./styles.css";
 import Flipper from "../Flipper";
-import Arrow from "../Arrow";
+import Icon from "../Icon";
 
 const Weather = ({
   onClick,
@@ -28,11 +28,11 @@ const Weather = ({
 
           <div className="Weather__desc">{desc} right now.</div>
           
-          <div className="flip-btn" onClick={onClick}><Arrow /></div>
+          <div className="flip-btn" onClick={onClick}><Icon icon="arrow" /></div>
         </div>
         <div className="Weather">
           <div className="Weather__desc">{hourlySummary}</div>
-          <div className="flip-btn reverse" onClick={onClick}><Arrow /></div>
+          <div className="flip-btn reverse" onClick={onClick}><Icon icon="arrow" /></div>
         </div>
       </Flipper>;
   return component;

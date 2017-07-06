@@ -1,6 +1,6 @@
 footer {
-  font-size: 14px;
-  padding: 14px;
+  font-size: 12px;
+  padding: 10px;
   position: absolute;
   width: 100%;
   left: 0;
@@ -8,4 +8,44 @@ footer {
   z-index: 3;
   background-color: #222222;
   text-align: center;
+}
+
+@media (min-width: 500px) {
+  footer {
+    font-size: 14px;
+    padding: 14px;
+  }
+}
+
+footer a {
+  white-space: nowrap;
+}
+
+.footer__icons {
+  margin-top: 0.5em;
+}
+
+.footer__social-link {
+ margin-right: 1em;
+ transition: all 0.25s;
+ color: #ccc;
+}
+
+.footer__social-link:hover {
+  color: #FD6378;
+}
+
+.footer__social-link:last-child {
+  margin-right: 0;
+}
+
+.footer__icon {
+  height: 2em;
+  width: 2em;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.footer__icon > svg {
+  fill: currentColor;
 }

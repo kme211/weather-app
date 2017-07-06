@@ -1,36 +1,56 @@
 import React from "react";
 import "./styles.css";
+import Link from "../Link";
+import Icon from "../Icon";
 
 const Footer = () => (
   <footer>
-    Created with
+    Created by <a href="https://kearieggers.com">Keari Eggers</a> with
     {" "}
-    <a
-      href="https://github.com/facebookincubator/create-react-app"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
+    <Link href="https://github.com/facebookincubator/create-react-app" external>
       create-react-app
-    </a>
+    </Link>
     . The source is on
     {" "}
-    <a
-      href="https://github.com/kme211/weather-app"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
+    <Link href="https://github.com/kme211/weather-app" external>
       GitHub
-    </a>
+    </Link>
     . Arrow icon by Alena Artemova from the
     {" "}
-    <a
-      href="https://thenounproject.com/"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
+    <Link href="https://thenounproject.com/" external>
       Noun Project
-    </a>
+    </Link>
     .
+    <div className="footer__icons">
+      <Link
+        href="https://www.linkedin.com/in/keari"
+        className="footer__social-link"
+        external
+      >
+        <Icon className="footer__icon" icon="linked-in" />
+      </Link>
+      <Link
+        href="https://github.com/kme211"
+        className="footer__social-link"
+        external
+      >
+        <Icon className="footer__icon" icon="github" />
+      </Link>
+      <Link
+        href="https://codepen.io/kme211/"
+        className="footer__social-link"
+        external
+      >
+        <Icon className="footer__icon" icon="codepen" />
+      </Link>
+      <Link
+        href="https://twitter.com/kearieggers"
+        className="footer__social-link"
+        external
+      >
+        <Icon className="footer__icon" icon="twitter" />
+      </Link>
+    </div>
   </footer>
 );
 
