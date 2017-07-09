@@ -1,17 +1,24 @@
+html, body, #root {
+  height: 100%;
+}
+
 .App {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   flex-direction: column;
-  height: 100vh;
+  min-height: 100%;
   font-size: 22px;
   font-family: Helvetica, Arial, sans-serif;
   color: #ECF0F1;
-  background-color: #3f3f3f;
   transition: all 0.4s;
   width: 100%;
   overflow: hidden;
   position: relative;
+}
+
+.App.default {
+  background-color: #3f3f3f;
 }
 
 .App.error {
@@ -48,6 +55,53 @@
 
 a {
   color: #FD6378;
+}
+
+button {
+  font-family: inherit;
+  font-size: 1rem;
+  border: none;
+  background-color: #FD6378;
+  color: white;
+}
+
+input, button {
+  padding: 0 12px;
+  line-height: 45px;
+}
+
+.icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+}
+
+.icon > svg {
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+  stroke: currentColor;
+}
+
+button .icon {
+  line-height: 100%;
+  vertical-align: middle;
+  font-size: 2em;
+}
+
+.error {
+  background: red;
+  color: white;
+}
+
+.hide-sm {
+  display: none;
+}
+
+@media (min-width: 500px) {
+  .hide-sm {
+    display: initial;
+  }
 }
 
 * {

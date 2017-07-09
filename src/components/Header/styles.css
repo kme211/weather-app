@@ -1,11 +1,8 @@
 header {
   font-size: 14px;
   padding: 12px;
-  position: absolute;
   z-index: 3;
   width: 100%;
-  left: 0;
-  top: 0;
   background-color: #222222;
   display: flex;
   justify-content: space-between;
@@ -16,4 +13,16 @@ header {
 .header__title {
   font-size: 1.25em;
   font-weight: 300;
+}
+
+.header__right {
+  display: flex;
+}
+
+.header__right > * {
+  margin-right: 12px;
+}
+
+.header__right *:last-child {
+  margin-right: 0;
 }

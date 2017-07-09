@@ -13,6 +13,11 @@
   align-items: center;
 }
 
+.Weather__address {
+  font-size: 1em;
+  font-weight: 600;
+}
+
 .Weather__error {
   margin: 1rem;
 }

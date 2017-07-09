@@ -1,10 +1,7 @@
 footer {
   font-size: 12px;
   padding: 10px;
-  position: absolute;
   width: 100%;
-  left: 0;
-  bottom: 0;
   z-index: 3;
   background-color: #222222;
   text-align: center;
