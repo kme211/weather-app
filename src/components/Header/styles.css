@@ -11,8 +11,14 @@ header {
 }
 
 .header__title {
-  font-size: 1.25em;
+  font-size: 1em;
   font-weight: 300;
+}
+
+@media (min-width: 345px) {
+  .header__title {
+    font-size: 1.25em;
+  }
 }
 
 .header__right {
