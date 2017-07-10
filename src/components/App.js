@@ -11,6 +11,7 @@ import Footer from "./Footer";
 import getWeather from "./services/getWeather";
 import getAddress from "./services/getAddress";
 import formatTemp from "./services/formatTemp";
+import sentenceCase from "./services/sentenceCase";
 import getNormalizedCondition from "./services/getNormalizedCondition";
 import colors from "./colors";
 
@@ -186,7 +187,7 @@ class App extends Component {
                 hourlySummary={hourlySummary}
                 feelsLike={formatTemp(tempScale, feelsLike)}
                 temp={formatTemp(tempScale, temp)}
-                desc={desc}
+                desc={sentenceCase(desc)}
                 flipperSideShown={flipperSideShown}
                 onClick={this.flip}
               />}
