@@ -3,7 +3,7 @@ import axios from "axios";
 export default function getWeather(location) {
   return axios
     .get(
-      `/api/v1/weather/${location.coords.latitude},${location.coords.longitude}`
+      `/api/v1/weather/${location.lat},${location.lng}`
     )
     .then(res => {
       const data = res.data ? res.data : null;

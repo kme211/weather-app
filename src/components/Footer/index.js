@@ -15,11 +15,6 @@ const Footer = () => (
     <Link href="https://github.com/kme211/weather-app" external>
       GitHub
     </Link>
-    . Arrow icon by Alena Artemova from the
-    {" "}
-    <Link href="https://thenounproject.com/" external>
-      Noun Project
-    </Link>
     .
     <div className="footer__icons">
       <Link

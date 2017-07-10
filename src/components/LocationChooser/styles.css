@@ -1,0 +1,12 @@
+.location-chooser {
+  width: 350px;
+}
+
+.location-chooser input, 
+.location-chooser button {
+  width: 100%;
+}
+
+.location-chooser input {
+  padding: 0 6px;
+}

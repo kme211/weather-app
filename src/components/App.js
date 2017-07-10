@@ -2,12 +2,14 @@ import React, { Component } from "react";
 import { Motion, spring } from "react-motion";
 import "./App.css";
 import Header from "./Header";
+import LocationChooser from "./LocationChooser";
 import Loader from "./Loader";
 import Weather from "./Weather";
 import Sky from "./Sky";
 import Clouds from "./Clouds";
 import Footer from "./Footer";
 import getWeather from "./services/getWeather";
+import getAddress from "./services/getAddress";
 import formatTemp from "./services/formatTemp";
 import getNormalizedCondition from "./services/getNormalizedCondition";
 import colors from "./colors";
@@ -18,6 +20,8 @@ class App extends Component {
 
     this.state = {
       error: null,
+      showLocOptions: true,
+      locationChosen: false,
       loaded: false,
       temp: 0,
       tempScale: "f",
@@ -28,11 +32,17 @@ class App extends Component {
       feelsLike: 0,
       hourlySummary: "",
       windSpeed: 0,
+      location: { lat: 32.75, lng: -97.34 },
+      address: "",
       height: window.innerHeight,
       width: window.innerWidth,
       flipperSideShown: "front"
     };
 
+    this.getLocation = this.getLocation.bind(this);
+    this.setLocation = this.setLocation.bind(this);
+    this.chooseLocation = this.chooseLocation.bind(this);
+    this.changeLocation = this.changeLocation.bind(this);
     this.changeTempScale = this.changeTempScale.bind(this);
     this.resizeHandler = this.resizeHandler.bind(this);
     this.flip = this.flip.bind(this);
@@ -53,23 +63,58 @@ class App extends Component {
 
   flip(e) {
     this.setState({
-      flipperSideShown: this.state.flipperSideShown === "front"
-        ? "back"
-        : "front"
+      flipperSideShown:
+        this.state.flipperSideShown === "front" ? "back" : "front"
+    });
+  }
+
+  async getLocation() {
+    try {
+      const location = await this.props.getLocation();
+      const address = await getAddress(location);
+      this.setState({ location, address });
+      return location;
+    } catch (e) {
+      this.setState({ error: e });
+    }
+  }
+
+  async setLocation(location, address) {
+    this.setState({ location, address });
+  }
+
+  chooseLocation() {
+    this.setState({ locationChosen: true, showLocOptions: false });
+  }
+
+  changeLocation() {
+    this.setState({
+      locationChosen: false,
+      showLocOptions: true,
+      loaded: false,
+      flipperSideShown: "front"
     });
   }
 
   async componentDidMount() {
     window.addEventListener("resize", this.resizeHandler);
-    const location = await this.props.getLocation();
-    const weather = await getWeather(location);
-    const newState = Object.assign({ loaded: true }, weather);
-    this.setState(newState);
+  }
+
+  async componentDidUpdate(prevProps, prevState) {
+    if (!prevState.locationChosen && this.state.locationChosen) {
+      const weather = await getWeather(this.state.location);
+      const newState = Object.assign({ loaded: true }, weather);
+      this.setState(newState);
+    }
   }
 
   render() {
     const {
       loaded,
+      showLocOptions,
+      locationChosen,
+      location,
+      address,
       error,
       tempScale,
       temp,
@@ -83,7 +128,8 @@ class App extends Component {
       flipperSideShown
     } = this.state;
 
-    let time = (error || !dt) ? "day" : ((dt > sunrise) & (dt < sunset) ? "day" : "night");
+    let time =
+      error || !dt ? "day" : (dt > sunrise) & (dt < sunset) ? "day" : "night";
     let summary = flipperSideShown === "front" ? desc : hourlySummary;
     let condition = error ? "error" : getNormalizedCondition(summary, time);
 
@@ -98,40 +144,56 @@ class App extends Component {
       : 0;
 
     return (
-      <div className={`App ${condition} ${time}`}>
-        <Header tempScale={tempScale} changeTempScale={this.changeTempScale} />
-        <Motion style={{ opacity: spring(loaded ? 0 : 1) }}>
-          {({ opacity }) => <Loader style={{ opacity: `${opacity}` }} />}
-        </Motion>
+      <div className={`App ${loaded ? `${condition} ${time}` : "default"}`}>
+        <Header
+          tempScale={tempScale}
+          changeTempScale={this.changeTempScale}
+          changeLocation={this.changeLocation}
+          locationChosen={locationChosen}
+        />
+        {!showLocOptions &&
+          <Motion style={{ opacity: spring(loaded ? 0 : 1) }}>
+            {({ opacity }) => <Loader style={{ opacity: `${opacity}` }} />}
+          </Motion>}
 
-        <Motion
-          style={{
-            scale: spring(loaded ? 1 : 0, {
-              stiffness: 60,
-              damping: 5
-            }),
-            rotate: spring(loaded ? 360 : 0)
-          }}
-        >
+        {showLocOptions &&
+          <LocationChooser
+            location={location}
+            address={address}
+            setLocation={this.setLocation}
+            getLocation={this.getLocation}
+            chooseLocation={this.chooseLocation}
+          />}
 
-          {({ scale, rotate }) => (
-            <Weather
-              style={{
-                WebkitTransform: `scale(${scale})`,
-                transform: `scale(${scale}) rotateY(${rotate}deg)`
-              }}
-              error={error}
-              hourlySummary={hourlySummary}
-              feelsLike={formatTemp(tempScale, feelsLike)}
-              temp={formatTemp(tempScale, temp)}
-              desc={desc}
-              flipperSideShown={flipperSideShown}
-              onClick={this.flip}
-            />
-          )}
-        </Motion>
+        {!showLocOptions &&
+          <Motion
+            style={{
+              scale: spring(loaded ? 1 : 0, {
+                stiffness: 60,
+                damping: 5
+              }),
+              rotate: spring(loaded ? 360 : 0)
+            }}
+          >
+            {({ scale, rotate }) =>
+              <Weather
+                style={{
+                  WebkitTransform: `scale(${scale})`,
+                  transform: `scale(${scale}) rotateY(${rotate}deg)`
+                }}
+                error={error}
+                address={address}
+                hourlySummary={hourlySummary}
+                feelsLike={formatTemp(tempScale, feelsLike)}
+                temp={formatTemp(tempScale, temp)}
+                desc={desc}
+                flipperSideShown={flipperSideShown}
+                onClick={this.flip}
+              />}
+          </Motion>}
 
-        {showSky &&
+        {loaded &&
+          showSky &&
           <Sky
             styles={{
               background: colors.sky[condition][time],
@@ -148,7 +210,8 @@ class App extends Component {
             width={window.innerWidth}
             height={window.innerHeight}
           />}
-        {numClouds > 0 &&
+        {loaded &&
+          numClouds > 0 &&
           <Clouds windSpeed={windSpeed} numClouds={numClouds} />}
         <Footer />
       </div>

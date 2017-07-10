@@ -20,8 +20,14 @@ class Clouds extends Component {
   }
 
   componentDidMount() {
+    this._mounted = true;
     window.requestAnimationFrame(this.animate);
     window.addEventListener('resize', this.onResize);
+  }
+
+  componentWillUnmount() {
+    this._mounted = false;
+    window.removeEventListener('resize', this.onResize);
   }
 
   createClouds(numClouds, deviceWidth, deviceHeight) {
@@ -50,6 +56,7 @@ class Clouds extends Component {
   animate() {
     let { deviceWidth, deviceHeight } = this.state;
     const { windSpeed } = this.props;
+    if(!this._mounted) return;
     this.setState(
       {
         clouds: this.state.clouds.map(cloud => {

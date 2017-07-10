@@ -3,7 +3,8 @@ export default function getLocation() {
     if (!window.navigator.geolocation)
       return reject("geolocation not available");
     window.navigator.geolocation.getCurrentPosition(position => {
-      resolve(position);
+      const { latitude: lat, longitude: lng } = position.coords;
+      resolve({ lat, lng });
     });
   });
 }
