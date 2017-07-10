@@ -21,6 +21,7 @@ class Map extends Component {
     if (prevProps.location !== this.props.location) {
       const { lat, lng } = this.props.location;
       this.gMap.panTo(new window.google.maps.LatLng(lat, lng));
+      this.gMap.setZoom(10);
       this.input.value = this.props.address;
     }
   }
@@ -32,10 +33,15 @@ class Map extends Component {
       center: location,
       zoom: 10
     };
-    if(address.length) this.input.value = address;
+    
     this.autocomplete = new window.google.maps.places.Autocomplete(this.input);
     this.gMap = new window.google.maps.Map(this.map, mapOptions);
     this.autocomplete.addListener("place_changed", this.updateMapLocation);
+    if(address.length) {
+      this.input.value = address;
+    } else {
+      this.gMap.setZoom(2);
+    }
   }
 
   updateMapLocation() {
