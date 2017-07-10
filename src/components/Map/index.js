@@ -26,6 +26,7 @@ class Map extends Component {
   }
 
   initMap() {
+    window.gMapsReady = true; // Need this for the scenario when Google Maps is ready first
     const { location, address } = this.props;
     const mapOptions = {
       center: location,

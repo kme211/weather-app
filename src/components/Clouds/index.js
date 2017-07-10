@@ -58,7 +58,6 @@ class Clouds extends Component {
     let { deviceWidth, deviceHeight } = this.state;
     const { windSpeed } = this.props;
     if(!this._mounted) return;
-    console.log(deviceWidth)
     this.setState(
       {
         clouds: this.state.clouds.map(cloud => {

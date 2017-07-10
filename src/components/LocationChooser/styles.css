@@ -5,6 +5,7 @@
 .location-chooser input, 
 .location-chooser button {
   width: 100%;
+  border: none;
 }
 
 .location-chooser input {
