@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Cloud from "./Cloud";
 import getRandomNum from "../services/getRandomNum";
+import "./styles.css";
 
 class Clouds extends Component {
   constructor(props) {
@@ -57,6 +58,7 @@ class Clouds extends Component {
     let { deviceWidth, deviceHeight } = this.state;
     const { windSpeed } = this.props;
     if(!this._mounted) return;
+    console.log(deviceWidth)
     this.setState(
       {
         clouds: this.state.clouds.map(cloud => {
@@ -85,7 +87,7 @@ class Clouds extends Component {
 
   render() {
     return (
-      <div>
+      <div className="clouds-bg">
         {this.state.clouds.map(cloud => (
           <Cloud key={cloud.id} style={cloud.style} />
         ))}

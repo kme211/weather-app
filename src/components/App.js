@@ -201,11 +201,7 @@ class App extends Component {
               zIndex: 2,
               position: "absolute"
             }}
-            type={
-              condition === "clear"
-                ? time === "day" ? "sun" : "stars"
-                : condition
-            }
+            type={condition}
             speed={1}
             time={time}
             width={window.innerWidth}
