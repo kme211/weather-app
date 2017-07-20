@@ -15,61 +15,53 @@ import sentenceCase from "./services/sentenceCase";
 import getNormalizedCondition from "./services/getNormalizedCondition";
 import colors from "./colors";
 
-class App extends Component {
-  constructor(props) {
-    super(props);
+export default class App extends Component {
+  state = {
+    error: null,
+    showLocOptions: true,
+    locationChosen: false,
+    loaded: false,
+    tempScale: "f",
+    location: { lat: 32.75, lng: -97.34 },
+    address: "",
+    height: window.innerHeight,
+    width: window.innerWidth,
+    flipperSideShown: "front"
+  };
 
-    this.state = {
-      error: null,
-      showLocOptions: true,
-      locationChosen: false,
-      loaded: false,
-      temp: 0,
-      tempScale: "f",
-      dt: 0,
-      desc: "",
-      sunset: 0,
-      sunrise: 0,
-      feelsLike: 0,
-      hourlySummary: "",
-      windSpeed: 0,
-      location: { lat: 32.75, lng: -97.34 },
-      address: "",
-      height: window.innerHeight,
-      width: window.innerWidth,
-      flipperSideShown: "front"
-    };
+  weatherData = {
+    temp: 0,
+    dt: 0,
+    desc: "",
+    sunset: 0,
+    sunrise: 0,
+    feelsLike: 0,
+    hourlySummary: "",
+    windSpeed: 0
+  };
 
-    this.getLocation = this.getLocation.bind(this);
-    this.setLocation = this.setLocation.bind(this);
-    this.chooseLocation = this.chooseLocation.bind(this);
-    this.changeLocation = this.changeLocation.bind(this);
-    this.changeTempScale = this.changeTempScale.bind(this);
-    this.resizeHandler = this.resizeHandler.bind(this);
-    this.flip = this.flip.bind(this);
-  }
-
-  resizeHandler() {
+  resizeHandler = () => {
     this.setState({
       width: window.innerWidth,
       height: window.innerHeight
     });
-  }
+  };
 
-  changeTempScale(e) {
+  changeTempScale = e => {
     this.setState({
       tempScale: this.state.tempScale === "f" ? "c" : "f"
     });
-  }
+  };
 
-  flip(e) {
+  flip = e => {
     this.setState({
-      flipperSideShown:
-        this.state.flipperSideShown === "front" ? "back" : "front"
+      flipperSideShown: this.state.flipperSideShown === "front"
+        ? "back"
+        : "front"
     });
-  }
+  };
 
-  async getLocation() {
+  getLocation = async () => {
     try {
       const location = await this.props.getLocation();
       const address = await getAddress(location);
@@ -78,36 +70,40 @@ class App extends Component {
     } catch (e) {
       this.setState({ error: e });
     }
-  }
+  };
 
-  async setLocation(location, address) {
+  setLocation = async (location, address) => {
     this.setState({ location, address });
-  }
+  };
 
-  chooseLocation() {
+  chooseLocation = () => {
     this.setState({ locationChosen: true, showLocOptions: false });
-  }
+  };
 
-  changeLocation() {
+  changeLocation = () => {
     this.setState({
       locationChosen: false,
       showLocOptions: true,
       loaded: false,
       flipperSideShown: "front"
     });
-  }
+  };
 
-  async componentDidMount() {
+  componentDidMount = () => {
     window.addEventListener("resize", this.resizeHandler);
-  }
+  };
 
-  async componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate = async (prevProps, prevState) => {
     if (!prevState.locationChosen && this.state.locationChosen) {
-      const weather = await getWeather(this.state.location);
-      const newState = Object.assign({ loaded: true }, weather);
-      this.setState(newState);
+      try {
+        const weather = await getWeather(this.state.location);
+        this.weatherData = weather;
+        this.setState({ loaded: true });
+      } catch(err) {
+        this.setState({ error: 'Unable to retrieve the weather data. Please try again later.', loaded: true })
+      }
     }
-  }
+  };
 
   render() {
     const {
@@ -118,20 +114,14 @@ class App extends Component {
       address,
       error,
       tempScale,
-      temp,
-      dt,
-      sunrise,
-      sunset,
-      desc,
-      feelsLike,
-      windSpeed,
-      hourlySummary,
       flipperSideShown
     } = this.state;
 
-    let time =
-      error || !dt ? "day" : (dt > sunrise) & (dt < sunset) ? "day" : "night";
-    let summary = flipperSideShown === "front" ? desc : hourlySummary;
+    const data = this.weatherData;
+    let time = error || !data.dt
+      ? "day"
+      : (data.dt > data.sunrise) & (data.dt < data.sunset) ? "day" : "night";
+    let summary = flipperSideShown === "front" ? data.desc : data.hourlySummary;
     let condition = error ? "error" : getNormalizedCondition(summary, time);
 
     const showSky =
@@ -176,7 +166,7 @@ class App extends Component {
               rotate: spring(loaded ? 360 : 0)
             }}
           >
-            {({ scale, rotate }) =>
+            {({ scale, rotate }) => (
               <Weather
                 style={{
                   WebkitTransform: `scale(${scale})`,
@@ -184,13 +174,14 @@ class App extends Component {
                 }}
                 error={error}
                 address={address}
-                hourlySummary={hourlySummary}
-                feelsLike={formatTemp(tempScale, feelsLike)}
-                temp={formatTemp(tempScale, temp)}
-                desc={sentenceCase(desc)}
+                hourlySummary={data.hourlySummary}
+                feelsLike={formatTemp(tempScale, data.feelsLike)}
+                temp={formatTemp(tempScale, data.temp)}
+                desc={sentenceCase(data.desc)}
                 flipperSideShown={flipperSideShown}
                 onClick={this.flip}
-              />}
+              />
+            )}
           </Motion>}
 
         {loaded &&
@@ -209,11 +200,9 @@ class App extends Component {
           />}
         {loaded &&
           numClouds > 0 &&
-          <Clouds windSpeed={windSpeed} numClouds={numClouds} />}
+          <Clouds windSpeed={data.windSpeed} numClouds={numClouds} />}
         <Footer />
       </div>
     );
   }
 }
-
-export default App;

@@ -1,13 +1,11 @@
 import axios from "axios";
 
-export default function getWeather(location) {
+function getData(location) {
   return axios
-    .get(
-      `/api/v1/weather/${location.lat},${location.lng}`
-    )
+    .get(`/api/v1/weather/${location.lat},${location.lng}`)
     .then(res => {
       const data = res.data ? res.data : null;
-      if (!data) return { error: "No weather data found!" };
+      if (!data) throw new Error("No weather data found!");
       const dailyData = data.daily.data && res.data.daily.data.length
         ? res.data.daily.data[0]
         : null;
@@ -23,9 +21,21 @@ export default function getWeather(location) {
         sunrise: dailyData.sunriseTime,
         sunset: dailyData.sunsetTime
       };
-    })
-    .catch(err => {
-      if (process.env.NODE_ENV === "development") console.error(err);
-      return { error: "Something went wrong!" };
     });
+}
+
+export default async function getWeather(location) {
+  try {
+    const weather = await getData(location);
+    return weather;
+  } catch (err) {
+    // try to get the weather one more time if it fails the first time
+    try {
+      const weather = await getData(location);
+      return weather;
+    } catch (err) {
+      if (process.env.NODE_ENV === "development") console.error(err);
+      throw new Error("Unable to retrieve weather data");
+    }
+  }
 }

@@ -2,16 +2,11 @@ import React, { Component } from "react";
 import "./styles.css";
 import { drawParticle, generateParticles } from "./services/particles";
 
-class Sky extends Component {
-  constructor(props) {
-    super(props);
+export default class Sky extends Component {
+  ctx = null;
+  particles = null;
 
-    this.animate = this.animate.bind(this);
-  }
-  ctx: null;
-  particles: null;
-
-  draw() {
+  draw = () => {
     const { type, speed, width, height, time } = this.props;
     const { ctx } = this;
 
@@ -22,11 +17,11 @@ class Sky extends Component {
     });
 
     this.animate();
-  }
+  };
 
-  animate() {
+  animate = () => {
     window.requestAnimationFrame(this.draw.bind(this));
-  }
+  };
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.type !== this.props.type) {
@@ -57,5 +52,3 @@ class Sky extends Component {
     );
   }
 }
-
-export default Sky;

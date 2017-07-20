@@ -1,14 +1,7 @@
 import React, { Component } from "react";
 import "./styles.css";
 
-class Map extends Component {
-  constructor(props) {
-    super(props);
-
-    this.initMap = this.initMap.bind(this);
-    this.updateMapLocation = this.updateMapLocation.bind(this);
-  }
-
+export default class Map extends Component {
   componentDidMount() {
     if(window.gMapsReady) {
       this.initMap();
@@ -17,7 +10,7 @@ class Map extends Component {
     }
   }
 
-  async componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps) {
     if (prevProps.location !== this.props.location) {
       const { lat, lng } = this.props.location;
       this.gMap.panTo(new window.google.maps.LatLng(lat, lng));
@@ -26,7 +19,7 @@ class Map extends Component {
     }
   }
 
-  initMap() {
+  initMap = () => {
     window.gMapsReady = true; // Need this for the scenario when Google Maps is ready first
     const { location, address } = this.props;
     const mapOptions = {
@@ -44,7 +37,7 @@ class Map extends Component {
     }
   }
 
-  updateMapLocation() {
+  updateMapLocation = () => {
     const place = this.autocomplete.getPlace();
     const location = place.geometry.location;
     const lat = location.lat();
@@ -73,5 +66,3 @@ class Map extends Component {
     );
   }
 }
-
-export default Map;
